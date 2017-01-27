@@ -851,13 +851,24 @@ genrule(
     visibility = ["//visibility:public"],
 )
 
+
+filegroup(
+    name = "Assets_filegrp",
+    srcs = glob([assets/*]),
+)
+
+filegroup(
+    name = "Assets_oa_filegrp",
+    srcs = glob([assets_oa/*]),
+)
+
 genrule(
     name = "assets_oa_pk3",
     srcs = ["assets_oa/scripts/shaderlist.txt"] + glob([
         "assets_oa/scripts/**/*.shader",
     ]),
     outs = ["baselab/assets_oa.pk3"],
-    cmd = "A=$$(pwd); (cd assets_oa; zip -r $${A}/$(OUTS) -- .)",
+    cmd = "A=$$(pwd); (cd $(location Assets_oa_filegrp); zip -r $${A}/$(OUTS) -- .)",
     visibility = ["//visibility:public"],
 )
 
@@ -873,7 +884,7 @@ genrule(
         "assets/scripts/**/*.shader",
     ]),
     outs = ["baselab/assets.pk3"],
-    cmd = "A=$$(pwd); (cd assets; zip -r $${A}/$(OUTS) -- .)",
+    cmd = "A=$$(pwd); (cd $(location Assets_filegrp); zip -r $${A}/$(OUTS) -- .)",
     visibility = ["//visibility:public"],
 )
 
@@ -881,7 +892,7 @@ genrule(
     name = "assets_bots_pk3",
     srcs = ["assets_oa/scripts/bots.txt"] + glob(["assets_oa/botfiles/**/*"]),
     outs = ["baselab/assets_bots.pk3"],
-    cmd = "A=$$(pwd); (cd assets_oa; zip -r $${A}/$(OUTS) -- .)",
+    cmd = "A=$$(pwd); (cd $(location Assets_oa_filegrp); zip -r $${A}/$(OUTS) -- .)",
     visibility = ["//visibility:public"],
 )
 
