@@ -1008,6 +1008,7 @@ cc_binary(
         ":dmlablib",
         "@python_system//:python",
     ],
+    visibility = ["//visibility:public"]
 )
 
 py_test(
